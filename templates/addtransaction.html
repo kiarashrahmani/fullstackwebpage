@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Transaction</title>
+</head>
+<body>
+    <h1>Add Transaction</h1>
+    <form action="/addtransaction" method="POST">
+        <label for="stocknumber_id">Stock Number ID:</label><br>
+        <input type="text" id="stocknumber_id" name="stocknumber_id"><br>
+
+        <label for="transaction_id">Transaction ID:</label><br>
+        <input type="text" id="transaction_id" name="transaction_id"><br>
+
+        <label for="time">Time:</label><br>
+        <input type="datetime-local" id="time" name="time"><br>
+
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type"><br>
+
+        <label for="Share_name">Share Name:</label><br>
+        <input type="text" id="Share_name" name="Share_name"><br>
+
+        <label for="Amount">Amount:</label><br>
+        <input type="text" id="Amount" name="Amount"><br>
+
+        <label for="price">Price:</label><br>
+        <input type="text" id="price" name="price"><br>
+
+        <label for="total_price">Total Price:</label><br>
+        <input type="text" id="total_price" name="total_price"><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</body>
+</html>
