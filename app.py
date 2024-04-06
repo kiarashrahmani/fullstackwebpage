@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for 
+from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from urllib.parse import quote_plus
 from datetime import datetime
@@ -6,11 +6,11 @@ from datetime import datetime
 app = Flask(__name__)
 fname = quote_plus('dbadmin')
 password = quote_plus('dbImp!14@2')
-url = 'mongodb://%s:%s@78.38.35.219:27017' % (fname, password)
+url = 'mongodb://%s:%s@78.38.35.219:27017' % (fname, password)  # Specify the database name in the connection URL
 client = MongoClient(url)
-db = client['SM']
-collection_users = db['users']
-collection_transactions = db['transactions']
+db = client.SM  # Specify the database
+collection_users = db.users  # Specify the collections
+collection_transactions = db.transactions
 
 @app.route('/')
 def index():
@@ -51,46 +51,75 @@ def user():
 @app.route('/addtransaction', methods=['GET', 'POST'])
 def add_transaction():
     if request.method == 'POST':
-        transaction_id = request.form.get('transaction_id')
+        if 'search_transaction_id' in request.form:  # Check if the form is for searching transactions
+            transaction_id = request.form.get('search_transaction_id')
+            if transaction_id:
+                transaction_data = collection_transactions.find_one({"transaction_id": int(transaction_id)})
+                if transaction_data:
+                    return render_template('addtransaction.html', transaction=transaction_data)
+                else:
+                    error_message = "Transaction with ID {} not found.".format(transaction_id)
+                    return render_template('addtransaction.html', error_message=error_message)
 
-        # Check if a transaction ID is provided for searching
-        if transaction_id:
-            # Search for the transaction in the database
-            transaction_data = collection_transactions.find_one({"transaction_id": int(transaction_id)})
-            
-            if transaction_data:
-                # If the transaction is found, render the template with the transaction data
-                return render_template('addtransaction.html', transaction=transaction_data)
-            else:
-                # If the transaction is not found, render the template with an error message
-                error_message = "Transaction with ID {} not found.".format(transaction_id)
-                return render_template('addtransaction.html', error_message=error_message)
-
-        # If no transaction ID is provided, proceed to add a new transaction
-        else:
+        else:  # Form submission for adding new transaction
             stocknumber_id = request.form.get('stocknumber_id')
+            transaction_id = request.form.get('transaction_id')
             time = request.form.get('time')
             trans_type = request.form.get('type')
             share_name = request.form.get('Share_name')
             amount = request.form.get('Amount')
             price = request.form.get('price')
             total_price = request.form.get('total_price')
-            
+
+            # Validate input data
+            if not (stocknumber_id and transaction_id and time and trans_type and share_name and amount and price and total_price):
+                error_message = "All fields are required."
+                return render_template('addtransaction.html', error_message=error_message)
+
+            try:
+                # Convert numeric fields to appropriate data types
+                stocknumber_id = int(stocknumber_id)
+                transaction_id = int(transaction_id)
+                amount = int(amount)
+                price = float(price)
+                total_price = float(total_price)
+            except ValueError:
+                error_message = "Invalid numeric value provided."
+                return render_template('addtransaction.html', error_message=error_message)
+
             new_transaction = {
-                "stocknumber_id": int(stocknumber_id),
-                "transaction_id": int(transaction_id),
-                "time": datetime.strptime(time, '%Y-%m-%dT%H:%M:%S'),
+                "stocknumber_id": stocknumber_id,
+                "transaction_id": transaction_id,
+                "time": datetime.strptime(time, '%Y-%m-%dT%H:%M'),
                 "type": trans_type,
                 "Share_name": share_name,
-                "Amount": int(amount),
-                "price": int(price),
-                "total_price": int(total_price)
+                "Amount": amount,
+                "price": price,
+                "total_price": total_price
             }
 
-            collection_transactions.insert_one(new_transaction)
-            return redirect(url_for('index'))
+            try:
+                collection_transactions.insert_one(new_transaction)
+                return redirect(url_for('add_transaction'))  # Redirect to the same route after insertion
+            except Exception as e:
+                error_message = "Error inserting data into database: {}".format(str(e))
+                return render_template('addtransaction.html', error_message=error_message)
 
     return render_template('addtransaction.html')
+
+@app.route('/searchtransaction', methods=['POST'])
+def search_transaction():
+    if request.method == 'POST':
+        transaction_id = request.form.get('transaction_id')
+        if transaction_id:
+            transaction_data = collection_transactions.find_one({"transaction_id": int(transaction_id)})
+            if transaction_data:
+                return render_template('addtransaction.html', transaction=transaction_data)
+            else:
+                error_message = "Transaction with ID {} not found.".format(transaction_id)
+                return render_template('addtransaction.html', error_message=error_message)
+    # Redirect to add_transaction route if no transaction ID provided or if search is unsuccessful
+    return redirect(url_for('add_transaction'))
 
 if __name__ == '__main__':
     app.run()
