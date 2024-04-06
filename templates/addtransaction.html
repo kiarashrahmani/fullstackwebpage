@@ -34,5 +34,26 @@
 
         <input type="submit" value="Submit">
     </form>
+
+    <!-- Search transaction form -->
+    <h2>Search Transaction</h2>
+    <form action="/addtransaction" method="POST">
+        <label for="search_transaction_id">Search by Transaction ID:</label><br>
+        <input type="text" id="search_transaction_id" name="transaction_id"><br>
+        <input type="submit" value="Search">
+    </form>
+
+    <!-- Display transaction information if available -->
+    {% if transaction %}
+        <h2>Transaction Information:</h2>
+        <p><strong>Stock Number ID:</strong> {{ transaction.stocknumber_id }}</p>
+        <p><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</p>
+        <p><strong>Time:</strong> {{ transaction.time }}</p>
+        <p><strong>Type:</strong> {{ transaction.type }}</p>
+        <p><strong>Share Name:</strong> {{ transaction.Share_name }}</p>
+        <p><strong>Amount:</strong> {{ transaction.Amount }}</p>
+        <p><strong>Price:</strong> {{ transaction.price }}</p>
+        <p><strong>Total Price:</strong> {{ transaction.total_price }}</p>
+    {% endif %}
 </body>
 </html>

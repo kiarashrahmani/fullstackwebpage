@@ -51,28 +51,44 @@ def user():
 @app.route('/addtransaction', methods=['GET', 'POST'])
 def add_transaction():
     if request.method == 'POST':
-        stocknumber_id = request.form.get('stocknumber_id')
         transaction_id = request.form.get('transaction_id')
-        time = request.form.get('time')
-        trans_type = request.form.get('type')
-        share_name = request.form.get('Share_name')
-        amount = request.form.get('Amount')
-        price = request.form.get('price')
-        total_price = request.form.get('total_price')
-        
-        new_transaction = {
-            "stocknumber_id": int(stocknumber_id),
-            "transaction_id": int(transaction_id),
-            "time": datetime.strptime(time, '%Y-%m-%dT%H:%M:%SZ'),
-            "type": trans_type,
-            "Share_name": share_name,
-            "Amount": int(amount),
-            "price": int(price),
-            "total_price": int(total_price)
-        }
 
-        collection_transactions.insert_one(new_transaction)
-        return redirect(url_for('index'))
+        # Check if a transaction ID is provided for searching
+        if transaction_id:
+            # Search for the transaction in the database
+            transaction_data = collection_transactions.find_one({"transaction_id": int(transaction_id)})
+            
+            if transaction_data:
+                # If the transaction is found, render the template with the transaction data
+                return render_template('addtransaction.html', transaction=transaction_data)
+            else:
+                # If the transaction is not found, render the template with an error message
+                error_message = "Transaction with ID {} not found.".format(transaction_id)
+                return render_template('addtransaction.html', error_message=error_message)
+
+        # If no transaction ID is provided, proceed to add a new transaction
+        else:
+            stocknumber_id = request.form.get('stocknumber_id')
+            time = request.form.get('time')
+            trans_type = request.form.get('type')
+            share_name = request.form.get('Share_name')
+            amount = request.form.get('Amount')
+            price = request.form.get('price')
+            total_price = request.form.get('total_price')
+            
+            new_transaction = {
+                "stocknumber_id": int(stocknumber_id),
+                "transaction_id": int(transaction_id),
+                "time": datetime.strptime(time, '%Y-%m-%dT%H:%M:%S'),
+                "type": trans_type,
+                "Share_name": share_name,
+                "Amount": int(amount),
+                "price": int(price),
+                "total_price": int(total_price)
+            }
+
+            collection_transactions.insert_one(new_transaction)
+            return redirect(url_for('index'))
 
     return render_template('addtransaction.html')
 
