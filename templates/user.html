@@ -8,7 +8,17 @@
 <body>
     <h1>User Information</h1>
 
-    <!-- Form to retrieve user information -->
+    <!-- Form to retrieve user information by stocknumber_id -->
+    <form action="/user" method="POST">
+        <label for="search_stocknumber_id">Search by Stock Number ID:</label><br>
+        <input type="text" id="search_stocknumber_id" name="search_stocknumber_id"><br><br>
+        <input type="submit" value="Search">
+    </form>
+
+    <hr>
+
+    <!-- Form to add new user information -->
+    <h2>Add User Information</h2>
     <form action="/user" method="POST">
         <label for="new_stocknumber_id">New Stock Number ID:</label><br>
         <input type="text" id="new_stocknumber_id" name="new_stocknumber_id"><br>
@@ -25,7 +35,7 @@
         <label for="address">Address:</label><br>
         <input type="text" id="address" name="address"><br><br>
 
-        <input type="submit" value="Add User info">
+        <input type="submit" value="Add User Info">
     </form>
 
     <!-- Display user information if available -->

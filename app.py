@@ -19,28 +19,33 @@ def index():
 @app.route('/user', methods=['GET', 'POST'])
 def user():
     if request.method == 'POST':
-        new_stocknumber_id = request.form.get('new_stocknumber_id')
-        fullname = request.form.get('fullname')
-        phonenumber = request.form.get('phonenumber')
-        age = request.form.get('age')
-        address = request.form.get('address')
+        search_stocknumber_id = request.form.get('search_stocknumber_id')
+        if search_stocknumber_id:
+            user_data = collection_users.find_one({"stocknumber_id": int(search_stocknumber_id)})
+            if user_data:
+                return render_template('user.html', user=user_data)
+            else:
+                error_message = "User with Stock Number ID {} not found.".format(search_stocknumber_id)
+                return render_template('user.html', user=None, error_message=error_message)
 
-        # Create a new user document to insert into the database
-        new_user = {
-            "stocknumber_id": int(new_stocknumber_id),
-            "fullname": fullname,
-            "phonenumber": phonenumber,
-            "age": int(age),
-            "address": address
-        }
+        else:
+            new_stocknumber_id = request.form.get('new_stocknumber_id')
+            fullname = request.form.get('fullname')
+            phonenumber = request.form.get('phonenumber')
+            age = request.form.get('age')
+            address = request.form.get('address')
 
-        # Insert the new user into the database
-        collection_users.insert_one(new_user)
+            new_user = {
+                "stocknumber_id": int(new_stocknumber_id),
+                "fullname": fullname,
+                "phonenumber": phonenumber,
+                "age": int(age),
+                "address": address
+            }
 
-        # Redirect to the same route to display the user information after insertion
-        return redirect(url_for('user'))
+            collection_users.insert_one(new_user)
+            return redirect(url_for('user'))
 
-    # If it's a GET request or after form submission, render the template with an empty user object
     return render_template('user.html', user={})
 
 @app.route('/addtransaction', methods=['GET', 'POST'])
