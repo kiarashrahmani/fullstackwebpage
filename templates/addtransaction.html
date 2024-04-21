@@ -4,56 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Transaction</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="datetime-local"],
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>Add Transaction</h1>
-    <form action="/addtransaction" method="POST">
-        <label for="stocknumber_id">Stock Number ID:</label><br>
-        <input type="text" id="stocknumber_id" name="stocknumber_id"><br>
+    <div class="container">
+        <h1>Add Transaction</h1>
+        <form action="/addtransaction" method="POST">
+            <label for="stocknumber_id">Stock Number ID:</label><br>
+            <input type="text" id="stocknumber_id" name="stocknumber_id"><br>
 
-        <label for="transaction_id">Transaction ID:</label><br>
-        <input type="text" id="transaction_id" name="transaction_id"><br>
+            <label for="transaction_id">Transaction ID:</label><br>
+            <input type="text" id="transaction_id" name="transaction_id"><br>
 
-        <label for="time">Time:</label><br>
-        <input type="datetime-local" id="time" name="time"><br>
+            <label for="time">Time:</label><br>
+            <input type="datetime-local" id="time" name="time"><br>
 
-        <label for="type">Type:</label><br>
-        <input type="text" id="type" name="type"><br>
+            <label for="type">Type:</label><br>
+            <input type="text" id="type" name="type"><br>
 
-        <label for="Share_name">Share Name:</label><br>
-        <input type="text" id="Share_name" name="Share_name"><br>
+            <label for="Share_name">Share Name:</label><br>
+            <input type="text" id="Share_name" name="Share_name"><br>
 
-        <label for="Amount">Amount:</label><br>
-        <input type="text" id="Amount" name="Amount"><br>
+            <label for="Amount">Amount:</label><br>
+            <input type="text" id="Amount" name="Amount"><br>
 
-        <label for="price">Price:</label><br>
-        <input type="text" id="price" name="price"><br>
+            <label for="price">Price:</label><br>
+            <input type="text" id="price" name="price"><br>
 
-        <label for="total_price">Total Price:</label><br>
-        <input type="text" id="total_price" name="total_price"><br>
+            <label for="total_price">Total Price:</label><br>
+            <input type="text" id="total_price" name="total_price"><br>
 
-        <input type="submit" value="Submit">
-    </form>
+            <input type="submit" value="Submit">
+        </form>
 
-    <!-- Search transaction form -->
-    <h2>Search Transaction</h2>
-    <form action="/searchtransaction" method="POST"> <!-- Change action to /searchtransaction -->
-        <label for="search_transaction_id">Search by Transaction ID:</label><br>
-        <input type="text" id="search_transaction_id" name="transaction_id"><br>
-        <input type="submit" value="Search">
-    </form>
+        <!-- Search transaction form -->
+        <h2>Search Transaction</h2>
+        <form action="/searchtransaction" method="POST"> <!-- Change action to /searchtransaction -->
+            <label for="search_transaction_id">Search by Transaction ID:</label><br>
+            <input type="text" id="search_transaction_id" name="transaction_id"><br>
+            <input type="submit" value="Search">
+        </form>
 
-    <!-- Display transaction information if available -->
-    {% if transaction %}
-        <h2>Transaction Information:</h2>
-        <p><strong>Stock Number ID:</strong> {{ transaction.stocknumber_id }}</p>
-        <p><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</p>
-        <p><strong>Time:</strong> {{ transaction.time }}</p>
-        <p><strong>Type:</strong> {{ transaction.type }}</p>
-        <p><strong>Share Name:</strong> {{ transaction.Share_name }}</p>
-        <p><strong>Amount:</strong> {{ transaction.Amount }}</p>
-        <p><strong>Price:</strong> {{ transaction.price }}</p>
-        <p><strong>Total Price:</strong> {{ transaction.total_price }}</p>
-    {% endif %}
+        <!-- Display transaction information if available -->
+        {% if transaction %}
+            <h2>Transaction Information:</h2>
+            <p><strong>Stock Number ID:</strong> {{ transaction.stocknumber_id }}</p>
+            <p><strong>Transaction ID:</strong> {{ transaction.transaction_id }}</p>
+            <p><strong>Time:</strong> {{ transaction.time }}</p>
+            <p><strong>Type:</strong> {{ transaction.type }}</p>
+            <p><strong>Share Name:</strong> {{ transaction.Share_name }}</p>
+            <p><strong>Amount:</strong> {{ transaction.Amount }}</p>
+            <p><strong>Price:</strong> {{ transaction.price }}</p>
+            <p><strong>Total Price:</strong> {{ transaction.total_price }}</p>
+        {% endif %}
+    </div>
 </body>
 </html>

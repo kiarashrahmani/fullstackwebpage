@@ -4,48 +4,126 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        hr {
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+        }
+
+        form {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        strong {
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>User Information</h1>
+    <div class="container">
+        <h1>User Information</h1>
 
-    <!-- Form to retrieve user information by stocknumber_id -->
-    <form action="/user" method="POST">
-        <label for="search_stocknumber_id">Search by Stock Number ID:</label><br>
-        <input type="text" id="search_stocknumber_id" name="search_stocknumber_id"><br><br>
-        <input type="submit" value="Search">
-    </form>
+        <!-- Form to retrieve user information by stocknumber_id -->
+        <form action="/user" method="POST">
+            <label for="search_stocknumber_id">Search by Stock Number ID:</label><br>
+            <input type="text" id="search_stocknumber_id" name="search_stocknumber_id"><br><br>
+            <input type="submit" value="Search">
+        </form>
 
-    <hr>
+        <hr>
 
-    <!-- Form to add new user information -->
-    <h2>Add User Information</h2>
-    <form action="/user" method="POST">
-        <label for="new_stocknumber_id">New Stock Number ID:</label><br>
-        <input type="text" id="new_stocknumber_id" name="new_stocknumber_id"><br>
+        <!-- Form to add new user information -->
+        <h2>Add User Information</h2>
+        <form action="/user" method="POST">
+            <label for="new_stocknumber_id">New Stock Number ID:</label><br>
+            <input type="text" id="new_stocknumber_id" name="new_stocknumber_id"><br>
 
-        <label for="fullname">Full Name:</label><br>
-        <input type="text" id="fullname" name="fullname"><br>
+            <label for="fullname">Full Name:</label><br>
+            <input type="text" id="fullname" name="fullname"><br>
 
-        <label for="phonenumber">Phone Number:</label><br>
-        <input type="text" id="phonenumber" name="phonenumber"><br>
+            <label for="phonenumber">Phone Number:</label><br>
+            <input type="text" id="phonenumber" name="phonenumber"><br>
 
-        <label for="age">Age:</label><br>
-        <input type="text" id="age" name="age"><br>
+            <label for="age">Age:</label><br>
+            <input type="text" id="age" name="age"><br>
 
-        <label for="address">Address:</label><br>
-        <input type="text" id="address" name="address"><br><br>
+            <label for="address">Address:</label><br>
+            <input type="text" id="address" name="address"><br><br>
 
-        <input type="submit" value="Add User Info">
-    </form>
+            <input type="submit" value="Add User Info">
+        </form>
 
-    <!-- Display user information if available -->
-    {% if user %}
-        <h2>User Information:</h2>
-        <p><strong>Stock Number ID:</strong> {{ user.stocknumber_id }}</p>
-        <p><strong>Full Name:</strong> {{ user.fullname }}</p>
-        <p><strong>Phone Number:</strong> {{ user.phonenumber }}</p>
-        <p><strong>Age:</strong> {{ user.age }}</p>
-        <p><strong>Address:</strong> {{ user.address }}</p>
-    {% endif %}
+        <!-- Display user information if available -->
+        {% if user %}
+            <h2>User Information:</h2>
+            <p><strong>Stock Number ID:</strong> {{ user.stocknumber_id }}</p>
+            <p><strong>Full Name:</strong> {{ user.fullname }}</p>
+            <p><strong>Phone Number:</strong> {{ user.phonenumber }}</p>
+            <p><strong>Age:</strong> {{ user.age }}</p>
+            <p><strong>Address:</strong> {{ user.address }}</p>
+        {% endif %}
+    </div>
 </body>
 </html>

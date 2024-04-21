@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Index</title>
+    <title>Aggregates</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -34,28 +34,64 @@
             font-weight: bold;
         }
 
-        a {
-            display: block;
+        ul {
+            padding: 0;
+        }
+
+        li {
+            list-style: none;
             margin-bottom: 10px;
             padding: 10px 15px;
             background-color: #f0f0f0;
             border-radius: 6px;
             color: #333;
-            text-decoration: none;
             font-size: 16px;
-        }
-
-        a:hover {
-            background-color: #e0e0e0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to the Index Page</h1>
-        <a href="/user">User Page</a>
-        <a href="/addtransaction">Add Transaction Page</a>
-        <a href="/aggregates">Showing aggregates results</a>
+        <h1>Highest Total Price</h1>
+        <ul>
+            {% for doc in highest_total_price %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Lowest Total Price</h1>
+        <ul>
+            {% for doc in lowest_total_price %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Sort Name A-Z</h1>
+        <ul>
+            {% for doc in sort_name_AZ %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Sort Name Z-A</h1>
+        <ul>
+            {% for doc in sort_name_ZA %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Sort by Date</h1>
+        <ul>
+            {% for doc in sort_by_date %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
+
+        <h1>Sort by Share Name</h1>
+        <ul>
+            {% for doc in sort_by_share_name %}
+            <li>{{ doc }}</li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
